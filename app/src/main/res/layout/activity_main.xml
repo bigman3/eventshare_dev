@@ -13,4 +13,21 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="95dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="create group"
+        android:id="@+id/button_create_group"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/listViewChats" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/group_name"
+        android:text="new group name"
+        android:layout_alignBottom="@+id/button_create_group"
+        android:layout_toStartOf="@+id/button_create_group" />
+
 </RelativeLayout>

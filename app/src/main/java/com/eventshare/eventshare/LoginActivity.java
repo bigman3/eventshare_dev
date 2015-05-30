@@ -3,7 +3,6 @@ package com.eventshare.eventshare;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,107 +12,85 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-//import  com.facebook.Session;
+import java.util.Arrays;
+import java.util.List;
 
 
-public class LoginActivity extends ActionBarActivity {
-    private CallbackManager mCallBackManager;
-    private AccessTokenTracker maccessTokenTracker;
-    private ProfileTracker mProfileTracker;
+public class LoginActivity extends BaseActivity {
+    private final Class<?> postLoginActivity = MainActivity.class;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /* init facebook */
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        DbWrapper.initParse(this);
 
-        dbWrapper.initParse(this);
+        setContentView(R.layout.fragment_login);
 
-        maccessTokenTracker = new AccessTokenTracker() {
+        final Intent nextIntent = new Intent(LoginActivity.this, postLoginActivity);
+
+
+        //check if we already exist and linked to fb, else login
+        if(ParseUser.getCurrentUser() != null &&
+                ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+
+            startActivity(nextIntent);
+            finish();
+        }
+
+        final List<String> fbPermissions = Arrays.asList("public_profile", "email");
+        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, fbPermissions, new LogInCallback() {
             @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
-                                                       AccessToken currentAccessToken) {
+            public void done(ParseUser user, ParseException err) {
+                if (user == null) {
+                    Log.d("EventShare", "Uh oh. The user cancelled the Facebook login.");
+                } else if (user.isNew()) {
+                    Log.d("EventShare", "User signed up and logged in through Facebook!");
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        };
-//        if (AccessToken.getCurrentAccessToken() != null) {
-//            Toast.makeText(getApplicationContext(),
-//                            "inside if", Toast.LENGTH_LONG)
-//                            .show();
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            return;
-//
-//        }
-//        Toast.makeText(getApplicationContext(),
-//                "outside if", Toast.LENGTH_LONG)
-//                .show();
-        mCallBackManager =  CallbackManager.Factory.create();
-        setContentView(R.layout.fragment_facebook_login);
-
-        View rootView = (View) findViewById(R.id.container);
-        final LoginButton loginButton = (LoginButton)rootView.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
-        loginButton.registerCallback(mCallBackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                mProfileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                        signUpOrLogin();
-                        mProfileTracker.stopTracking();
-                    }
-                };
-                mProfileTracker.startTracking();
-
-
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException e) {
-
-
+                    updateUserDetails(user);
+                    startActivity(nextIntent);
+                    finish();
+                } else {
+                    Log.d("EventShare", "User logged in through Facebook!");
+                    updateUserDetails(user);
+                    startActivity(nextIntent);
+                    finish();
+                }
             }
         });
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
 
+      //  finish();
 
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        mCallBackManager.onActivityResult(0,0, intent );
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container, new PlaceholderFragment())
+//                    .commit();
+//        }
     }
 
+
+    private void updateUserDetails(ParseUser user) {
+        Profile facebookProfile = com.facebook.Profile.getCurrentProfile();
+        final String profilePicUri = facebookProfile.getProfilePictureUri(64,64).toString();
+
+        user.put("profilePicUri", profilePicUri);
+        user.put("fullName", facebookProfile.getName());
+
+        user.saveInBackground();
+
+
+    }
     private void signUpOrLogin() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         Profile facebookProfile = com.facebook.Profile.getCurrentProfile();
@@ -227,12 +204,14 @@ public class LoginActivity extends ActionBarActivity {
     public void onResume()
     {
         super.onResume();
-        Profile profile = Profile.getCurrentProfile();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//        Profile profile = Profile.getCurrentProfile();
+//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCallBackManager.onActivityResult(requestCode, resultCode, data);
+//        mCallBackManager.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+
     }
 }

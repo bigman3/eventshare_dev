@@ -5,19 +5,23 @@ import com.parse.ParseObject;
 
 @ParseClassName("Message")
 public class Message extends ParseObject{
-	 public String getUserId() {
+        public String getUserId() {
 	        return getString("userId");
 	    }
-
-	    public String getBody() {
+        public String getgroupId() {
+        return getString("groupId");
+    }
+        public String getBody() {
 	        return getString("body");
 	    }
 
-	    public void setUserId(String userId) {
+        public void setUserId(String userId) {
 	        put("userId", userId);  
 	    }
-
-	    public void setBody(String body) {
+        public void setGroupId(String groupId) {
+        put("groupId", groupId);
+    }
+        public void setBody(String body) {
 	        put("body", body);
 	    }
 }

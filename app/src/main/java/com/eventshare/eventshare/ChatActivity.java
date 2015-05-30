@@ -13,8 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.LogInCallback;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -29,16 +27,16 @@ public class ChatActivity extends ActionBarActivity {
     private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
     private static final String TAG = ChatActivity.class.getName();
-    private static String sUserId;
-
-    public static final String USER_ID_KEY = "userIdABCD";
+    private String sUserId;
+    private String mGroupId;
+    private String mGroupName;
 
     private EditText etMessage;
     private Button btSend;
 
     private ListView lvChat;
     private ArrayList<Message> mMessages;
-    private ChatListAdapter mAdapter;
+    private MessageListAdapter mAdapter;
 
     // Create a handler which can run code periodically
     private Handler handler = new Handler();
@@ -48,14 +46,7 @@ public class ChatActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-//        ParseUser.enableAutomaticUser();
-
-//        // User login
-//        if (ParseUser.getCurrentUser() != null) { // start with existing user
-//            startWithCurrentUser();
-//        } else { // If not logged in, login as a new anonymous user
-//            login();
-//        }
+        sUserId = ParseUser.getCurrentUser().getObjectId();
 
         setupMessagePosting();
 
@@ -63,9 +54,11 @@ public class ChatActivity extends ActionBarActivity {
 
 
         Bundle msgInfo = getIntent().getExtras();
-        String strId = msgInfo.getString("name");
+        //mGroupId = msgInfo.getString("groupId");
+        mGroupName = msgInfo.getString("groupName");
+
         TextView ttext =  (TextView) findViewById(R.id.textView);
-        ttext.setText(strId);
+        ttext.setText(mGroupName);
 
 
     }
@@ -103,7 +96,7 @@ public class ChatActivity extends ActionBarActivity {
         btSend = (Button) findViewById(R.id.buttonSend);
         lvChat = (ListView) findViewById(R.id.lvChatMessages);
         mMessages = new ArrayList<Message>();
-        mAdapter = new ChatListAdapter(ChatActivity.this, sUserId, mMessages);
+        mAdapter = new MessageListAdapter(ChatActivity.this, sUserId, mMessages);
         lvChat.setAdapter(mAdapter);
 
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -126,11 +119,6 @@ public class ChatActivity extends ActionBarActivity {
         });
     }
 
-    // Get the userId from the cached currentUser object
-    private void startWithCurrentUser() {
-        sUserId = ParseUser.getCurrentUser().getObjectId();
-    }
-
 //    // Create an anonymous user using ParseAnonymousUtils and set sUserId
 //    private void login() {
 //        ParseAnonymousUtils.logIn(new LogInCallback() {
@@ -150,6 +138,7 @@ public class ChatActivity extends ActionBarActivity {
     private void receiveMessage() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        query.whereEqualTo("groupId", mGroupId);
         // Configure limit and sort order
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
         query.orderByAscending("createdAt");
