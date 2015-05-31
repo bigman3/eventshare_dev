@@ -21,7 +21,7 @@ import java.util.ListIterator;
 public class MainActivity extends BaseActivity {
     ListView listViewChats;
     List<ChatGroups> chatGroupsList;
-    ArrayAdapter<ChatGroups> chatGroupsAdapter;
+    ChatListAdapter chatGroupsAdapter;
 
 
     @Override
@@ -34,7 +34,10 @@ public class MainActivity extends BaseActivity {
         List<ChatGroups> myChatGroups = DbWrapper.getUserChatGroups(ParseUser.getCurrentUser());
         /**/
         chatGroupsList = new LinkedList<ChatGroups>();
-        chatGroupsAdapter = new ArrayAdapter<ChatGroups>(this, android.R.layout.simple_list_item_1, chatGroupsList);
+
+
+        //android.R.layout.simple_list_item_1
+        chatGroupsAdapter = new ChatListAdapter(this, chatGroupsList);
 
         listViewChats = (ListView) findViewById(R.id.listViewChats);
         listViewChats.setAdapter(chatGroupsAdapter);
@@ -58,12 +61,12 @@ public class MainActivity extends BaseActivity {
 //                if (e == null) {
 //                    // chatGroupsList.addAll(users);
 
-                    for(ListIterator<ChatGroups> i = myChatGroups.listIterator(); i.hasNext(); ) {
-                        chatGroupsList.add(i.next());
-                    }
-                    chatGroupsAdapter.notifyDataSetChanged(); // update adapter
-                    listViewChats.invalidate(); // redraw listview
-                    listViewChats.setSelection(1);
+        for(ListIterator<ChatGroups> i = myChatGroups.listIterator(); i.hasNext(); ) {
+            chatGroupsList.add(i.next());
+        }
+        chatGroupsAdapter.notifyDataSetChanged(); // update adapter
+        listViewChats.invalidate(); // redraw listview
+        listViewChats.setSelection(1);
 //                } else {
 //                    Log.d("user retrieve error", "Error: " + e.getMessage());
 //                }
@@ -81,7 +84,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, ChatActivity.class);
 
                 Bundle msgInfo = new Bundle();
-//                msgInfo.putString("groupId", cGroup.getObjectId());
+                msgInfo.putString("groupId", cGroup.getObjectId());
                 msgInfo.putString("groupName", cGroup.getGroupName());
                 intent.putExtras(msgInfo);
                 startActivity(intent);
@@ -105,10 +108,10 @@ public class MainActivity extends BaseActivity {
 
         buttonGroupCreate.setOnClickListener(new View.OnClickListener() {
 
-             @Override
-             public void onClick(View v) {
-                 DbWrapper.createNewChatGroup(newGroup);
-             }
+            @Override
+            public void onClick(View v) {
+                DbWrapper.createNewChatGroup(newGroup);
+            }
         });
 
     }
@@ -146,8 +149,5 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 }

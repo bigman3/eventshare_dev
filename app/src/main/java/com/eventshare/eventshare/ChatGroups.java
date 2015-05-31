@@ -13,11 +13,15 @@ public class ChatGroups extends ParseObject{
         return getString("adminId");
     }
 
+    public String getLastMessageId() { return getString("lastMessage");}
 
     public void setGroupName(String groupName) {
         put("groupName", groupName);
     }
     public void setAdmin(String adminId) {
         put("adminId", adminId);
+    }
+    public void setLastMessageId(String messageId) {
+        put("lastMessage", messageId);
     }
 }
