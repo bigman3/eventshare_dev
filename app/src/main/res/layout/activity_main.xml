@@ -25,8 +25,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/group_name"
-        android:text="new group name"
+        android:id="@+id/new_group_name"
+        android:text="gname"
         android:layout_alignBottom="@+id/button_create_group"
         android:layout_toStartOf="@+id/button_create_group" />
 

@@ -3,6 +3,7 @@ package com.eventshare.eventshare;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends ActionBarActivity {
     private final Class<?> postLoginActivity = MainActivity.class;
 
 
@@ -32,6 +33,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d("Eventshare", "Enter login activity");
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        DbWrapper.initParse(this);
 
@@ -44,6 +46,8 @@ public class LoginActivity extends BaseActivity {
         if(ParseUser.getCurrentUser() != null &&
                 ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
 
+            Log.d("Eventshare", LoginActivity.class + "->"+postLoginActivity.toString() + " (skip fb auth)");
+
             startActivity(nextIntent);
             finish();
         }
@@ -55,13 +59,13 @@ public class LoginActivity extends BaseActivity {
                 if (user == null) {
                     Log.d("EventShare", "Uh oh. The user cancelled the Facebook login.");
                 } else if (user.isNew()) {
-                    Log.d("EventShare", "User signed up and logged in through Facebook!");
+                    Log.d("Eventshare", LoginActivity.class + "->"+postLoginActivity.toString() + " (fb auth + register)");
 
                     updateUserDetails(user);
                     startActivity(nextIntent);
                     finish();
                 } else {
-                    Log.d("EventShare", "User logged in through Facebook!");
+                    Log.d("Eventshare", LoginActivity.class + "->"+postLoginActivity.toString() + " (fb auth + no register)");
                     updateUserDetails(user);
                     startActivity(nextIntent);
                     finish();

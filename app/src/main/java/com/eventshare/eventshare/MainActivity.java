@@ -2,6 +2,8 @@ package com.eventshare.eventshare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,99 +20,90 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class MainActivity extends BaseActivity {
-    ListView listViewChats;
-    List<ChatGroups> chatGroupsList;
-    ChatListAdapter chatGroupsAdapter;
+public class MainActivity extends ActionBarActivity {
+//    static ListView listViewChats;
+//    static List<ChatGroups> chatGroupsList;
+//    static ChatListAdapter chatGroupsAdapter;
 
+    static LvData<ChatGroups, ChatListAdapter> lvData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListView lv = (ListView) findViewById(R.id.listViewChats);
+        List<ChatGroups> l = new LinkedList<ChatGroups>();
+        lvData = new LvData<>(lv, l, getApplicationContext());
+        ChatListAdapter ad = new ChatListAdapter(getApplicationContext(), l);
+        lvData.setAdapter(ad);
+
+
         testGroupAdd();
 
         List<ChatGroups> myChatGroups = DbWrapper.getUserChatGroups(ParseUser.getCurrentUser());
-        /**/
-        chatGroupsList = new LinkedList<ChatGroups>();
 
-
-        //android.R.layout.simple_list_item_1
-        chatGroupsAdapter = new ChatListAdapter(this, chatGroupsList);
-
-        listViewChats = (ListView) findViewById(R.id.listViewChats);
-        listViewChats.setAdapter(chatGroupsAdapter);
+//        chatGroupsList = new LinkedList<ChatGroups>();
+//        chatGroupsAdapter = new ChatListAdapter(getApplicationContext(), chatGroupsList);
 
 //
-
-
-
-        //TODO: fill listview with chats from data base
-
 //
-//        dummy.add("a1");  dummy.add("a2");  dummy.add("a3");  dummy.add("a4");
-//        dummy.add("a11");  dummy.add("a22");  dummy.add("a33");  dummy.add("a44");
-//        dummy.add("a21");  dummy.add("a32");  dummy.add("a43");  dummy.add("a54");
+//        listViewChats = (ListView) findViewById(R.id.listViewChats);
+//        listViewChats.setAdapter(chatGroupsAdapter);
 
-//        ParseQuery<ParseUser> query = ParseUser.getQuery();
-//
-//      //  query.selectKeys(Arrays.asList("username"));
-//        query.findInBackground(new FindCallback<ParseUser>() {
-//            public void done(List<ParseUser> users, ParseException e) {
-//                if (e == null) {
-//                    // chatGroupsList.addAll(users);
 
         for(ListIterator<ChatGroups> i = myChatGroups.listIterator(); i.hasNext(); ) {
-            chatGroupsList.add(i.next());
+            ChatGroups g = i.next();
+            //chatGroupsList.add(g);
+            lvData.add(g);
         }
-        chatGroupsAdapter.notifyDataSetChanged(); // update adapter
-        listViewChats.invalidate(); // redraw listview
-        listViewChats.setSelection(1);
-//                } else {
-//                    Log.d("user retrieve error", "Error: " + e.getMessage());
-//                }
-//            }
-//        });
 
+        lvData.refresh();
+        //refreshGroupsList();
 
-
-        listViewChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //listViewChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView <?> parent, View view,
                                     int position, long id) {
 
-                ChatGroups cGroup = (ChatGroups) listViewChats.getItemAtPosition(position);
+               // ChatGroups cGroup = (ChatGroups) listViewChats.getItemAtPosition(position);
+                ChatGroups cGroup = (ChatGroups) lvData.getItemAtPosition(position);
                 Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-
-                Bundle msgInfo = new Bundle();
-                msgInfo.putString("groupId", cGroup.getObjectId());
-                msgInfo.putString("groupName", cGroup.getGroupName());
-                intent.putExtras(msgInfo);
+                intent.putExtra("groupId", cGroup.getObjectId());
                 startActivity(intent);
 
-
-               /* Toast.makeText(getApplicationContext(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                        .show();*/
             }
         });
 
     }
 
+//    public static void refreshGroupsList() {
+//        chatGroupsAdapter.notifyDataSetChanged(); // update adapter
+//        listViewChats.invalidate(); // redraw listview
+//        listViewChats.setSelection(1);
+//    }
+
     private void testGroupAdd() {
         Button buttonGroupCreate = (Button) findViewById(R.id.button_create_group);
-        String newGroupName = ((EditText) findViewById(R.id.group_name)).getText().toString();
-
-        final ChatGroups newGroup = new ChatGroups();
-        newGroup.setAdmin(ParseUser.getCurrentUser().getObjectId());
-        newGroup.setGroupName(newGroupName);
-
         buttonGroupCreate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                String newGroupName = ((EditText) findViewById(R.id.new_group_name)).getText().toString();
+                ChatGroups newGroup = new ChatGroups();
+                newGroup.setAdmin(ParseUser.getCurrentUser().getObjectId());
+                newGroup.setGroupName(newGroupName);
+
+                lvData.addFirst(newGroup);
+
                 DbWrapper.createNewChatGroup(newGroup);
+
+                lvData.refresh();
+                //chatGroupsList.add(0, newGroup);
+                //refreshGroupsList();
+
+
             }
         });
 
@@ -122,6 +115,7 @@ public class MainActivity extends BaseActivity {
     {
         super.onResume();
 
+        //refreshGroupsList();
     }
 
 

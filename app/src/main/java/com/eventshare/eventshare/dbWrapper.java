@@ -3,13 +3,13 @@ package com.eventshare.eventshare;
 
 import android.util.Log;
 
-import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,24 +32,34 @@ public class DbWrapper {
         //  ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
-    static void createNewChatGroup(ChatGroups newGroup){
-        newGroup.saveInBackground();
-
-        ParseQuery<ChatGroups> lastQuery = ParseQuery.getQuery("ChatGroups");
-        lastQuery.orderByDescending("createdAt");
+    static void createNewChatGroup(final ChatGroups newGroup) {
+        newGroup.saveInBackground(new SaveCallback() {
 
 
+//        ParseQuery<ChatGroups> lastQuery = ParseQuery.getQuery("ChatGroups");
+//        lastQuery.orderByDescending("createdAt");
 
-        try {
-            newGroup = lastQuery.getFirst();
-            ParseObject newMembership = new ParseObject("GroupMembership");
-            newMembership.put("groupId", newGroup.getObjectId());
-            newMembership.put("userId", ParseUser.getCurrentUser().getObjectId());
-            newMembership.save();
-        } catch (ParseException e) {
-            Log.d("Eventshare", e.toString());
-            return;
-        }
+
+//        try {
+//            newGroup = lastQuery.getFirst();
+//            ParseObject newMembership = new ParseObject("GroupMembership");
+//            newMembership.put("groupId", newGroup.getObjectId());
+//            newMembership.put("userId", ParseUser.getCurrentUser().getObjectId());
+//            newMembership.save();
+//        } catch (ParseException e) {
+//            Log.d("Eventshare", e.toString());
+//            e.printStackTrace();
+//            return;
+//        }
+
+            @Override
+            public void done(ParseException e) {
+                ParseObject newMembership = new ParseObject("GroupMembership");
+                newMembership.put("groupId", newGroup.getObjectId());
+                newMembership.put("userId", ParseUser.getCurrentUser().getObjectId());
+                newMembership.saveInBackground();
+            }
+        });
     }
 
     static void addMemberToGroup(String userId, String groupId){
@@ -68,20 +78,39 @@ public class DbWrapper {
         try {
             membershipList = query.find();
         } catch (ParseException e) {
-            Log.d("Eventshare", e.toString());
+            Log.d("Eventshare1", e.toString());
+            e.printStackTrace();
         }
 
-        List<ChatGroups> userChatGroups = new LinkedList<ChatGroups>();
-        ParseQuery<ChatGroups> query2 = ParseQuery.getQuery("ChatGroups");
+        List<String> groupIds = new LinkedList<>();
         ListIterator<ParseObject> itr = membershipList.listIterator();
-        while(itr.hasNext()){
-            query2.whereEqualTo("objectId", itr.next().get("groupId"));
+
+        while(itr.hasNext()) {
+            groupIds.add((String) itr.next().get("groupId"));
+        }
+
+        List<ChatGroups> userChatGroups = null;
+        ParseQuery<ChatGroups> query2 = ParseQuery.getQuery("ChatGroups");
+        query2.orderByDescending("updatedAt");
+        query2.whereContainedIn("objectId", groupIds);
+//        ListIterator<ParseObject> itr = membershipList.listIterator();
+//        while(itr.hasNext()){
+//            query2.whereEqualTo("objectId", itr.next().get("groupId"));
             try {
-                userChatGroups.add(query2.getFirst()); //optimize, all in once..
+                userChatGroups =  query2.find();
+                //query2.findInBackground(new FindCallback<ChatGroups>() {
+//                    @Override
+//                    public void done(List<ChatGroups> chatGroupses, ParseException e) {
+//                        userChatGroups = chatGroupses;
+                        Log.d("Eventshare", "retrieved " + userChatGroups.size() + " groups");
+//                    }
+//                });
+//                userChatGroups.add(query2.getFirst()); //optimize, all in once..
             } catch (ParseException e) {
-            Log.d("Eventshare", e.toString());
+            Log.d("Eventshare2", e.toString());
+                e.printStackTrace();
         }
-        }
+//        }
         return userChatGroups;
     }
 }
