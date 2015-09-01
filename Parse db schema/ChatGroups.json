@@ -1,0 +1,17 @@
+{ "results": [
+	{
+        "adminId": "abcd",
+        "createdAt": "2015-09-01T20:28:36.359Z",
+        "eventDate": "abcd",
+        "groupName": "abcd",
+        "groupPic": {
+            "__type": "File",
+            "name": "tfss-9c1475c3-e81a-4424-a299-108a3282bf60-a.jpg",
+            "url": "http://files.parsetfss.com/1dcf1e54-00f6-4cbf-97dc-0751c484e634/tfss-9c1475c3-e81a-4424-a299-108a3282bf60-a.jpg"
+        },
+        "localImagePath": "abcd",
+        "members": [],
+        "objectId": "OEZB3UkVlG",
+        "updatedAt": "2015-09-01T20:28:36.359Z"
+    }
+] }

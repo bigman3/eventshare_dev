@@ -1,0 +1,15 @@
+{ "results": [
+	{
+        "bcryptPassword": "$2a$10$Sg7/cM6e8ZxGaZcgNk1CjOPbBUE4ZjWPTBq.BUSRg4GbQu94MPMTe",
+        "createdAt": "2015-09-01T20:29:11.078Z",
+        "installation": {
+            "__type": "Pointer",
+            "className": "_Installation",
+            "objectId": "abcd"
+        },
+        "objectId": "X5FA8gF8zx",
+        "sessionToken": "X42929lABOPJvavlwiIIQzdkU",
+        "updatedAt": "2015-09-01T20:29:11.078Z",
+        "username": "abcd"
+    }
+] }
