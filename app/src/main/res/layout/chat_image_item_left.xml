@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:layout_alignParentRight="true">
+    android:visibility="invisible"
+    android:focusable="true"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/msg_in_selected"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/popupLayout">
+
+            <ImageView
+                android:layout_width="270dp"
+                android:layout_height="270dp"
+                android:id="@+id/attachedImage"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentEnd="true"
+                android:cropToPadding="false"
+                android:clickable="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp" />
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/cancel_x"
+                android:clickable="true"
+                android:src="@drawable/cancel"
+                android:layout_alignStart="@+id/donut_progress"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/try_again"
+                android:src="@drawable/try_again"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:visibility="invisible" />
+
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:id="@+id/donut_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="false"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                android:clickable="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12.08.15 15:32"
+                android:id="@+id/msgDate"
+                android:textSize="12dp"
+                android:textColor="#848484"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp"
+                android:paddingTop="2dp"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Arieh Leviav"
+                android:id="@+id/userName"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:id="@+id/msgStatus"
+                android:layout_alignBottom="@+id/msgDate"
+                android:layout_alignParentEnd="true"
+                android:visibility="visible"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvBody"
+                android:paddingBottom="14dp"
+                android:layout_above="@+id/msgDate"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

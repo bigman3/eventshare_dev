@@ -1,7 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.eventshare.eventshare.ChatActivity">
+    tools:context="com.eventshare.eventshare.Activities.ChatActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_add_photo" android:icon="@drawable/ic_attach"
+        android:title=" "
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/action_event_info" android:icon="@drawable/ic_info"
+        android:title=" "
+        android:orderInCategory="100" app:showAsAction="always" />
+
 </menu>

@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.eventshare.eventshare.Activities.GroupInfoActivity">
+
+    <!-- join the group btn -->
+    <!--item android:id="@+id/action_search" android:icon="@drawable/ic_joined"
+        android:title=" "
+        android:orderInCategory="100" app:showAsAction="always" /-->
+</menu>

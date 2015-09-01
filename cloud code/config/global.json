@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.5.0"
+  },
+  "applications": {
+    "_default": {
+      "link": "eventS"
+    },
+    "eventS": {
+      "applicationId": "fiIq9aboE53Q72ZkwZRgBAgqOx01QOH4LJ00hYKF",
+      "masterKey": "jfFcEBYQjUf7kadXxMGGpGR39IXFLsOTbIzyNGkM"
+    }
+  }
+}

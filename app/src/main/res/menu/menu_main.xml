@@ -1,7 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.eventshare.eventshare.MainActivity">
+    tools:context="com.eventshare.eventshare.Activities.MainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_add_group" android:icon="@drawable/ic_create_new_group"
+        android:title=" "
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/action_search" android:icon="@drawable/ic_search"
+        android:title=" "
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>

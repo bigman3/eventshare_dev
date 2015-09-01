@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="#e4e4e4">
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:id="@+id/search_result_item_group_image"
+        />
+
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_result_item_group_name"
+        android:layout_gravity="right"
+        android:textStyle="bold"
+        android:textSize="10pt"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/search_result_item_group_image"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/occurs_on_text"
+        android:layout_gravity="right"
+        android:text="occurs on:"
+        android:textSize="8pt"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/search_result_item_group_name"
+        android:layout_toEndOf="@+id/search_result_item_group_image" />
+
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_result_item_group_date"
+        android:layout_gravity="right"
+        android:textSize="8pt"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentBottom="false"
+        android:layout_toEndOf="@+id/occurs_on_text"
+        android:layout_toRightOf="@+id/occurs_on_text"
+        android:layout_below="@+id/search_result_item_group_name" />
+
+
+</RelativeLayout>

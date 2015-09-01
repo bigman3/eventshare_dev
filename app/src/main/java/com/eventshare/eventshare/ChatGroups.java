@@ -1,31 +1,39 @@
 package com.eventshare.eventshare;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 @ParseClassName("ChatGroups")
-public class ChatGroups extends ParseObject/* implements Parcelable*/ {
-//    private static final long serialVersionUID = 1L;
+public class ChatGroups extends ParseObject {
+    public static int GROUP_LARGE_PIC = 0;
+    public static int GROUP_SMALL_PIC = 1;
 
-//    public ChatGroups() {}
-
-//    public ChatGroups(Parcel in) {
-//        readFromParcel(in);
-//    }
+//    boolean available = false;
 
     public String getGroupName() {
         return getString("groupName");
     }
+    public String getGroupDate() {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(getDate("takingPlaceOn"));
+    }
+
     public String getAdmin() {
         return getString("adminId");
     }
 
-    public String getLastMessageId() { return getString("lastMessage");}
+//    public String getLastMessageId() { return getString("lastMessage");}
+    public Object getLastMessage() { return get("lastMessage");}
 
     public void setGroupName(String groupName) {
         put("groupName", groupName);
@@ -33,21 +41,44 @@ public class ChatGroups extends ParseObject/* implements Parcelable*/ {
     public void setAdmin(String adminId) {
         put("adminId", adminId);
     }
-    public void setLastMessageId(String messageId) {
-        put("lastMessage", messageId);
+//    public void setLastMessageId(String messageId) {
+//        put("lastMessage", messageId);
+//    }
+    public void setGroupPicPath(String groupPicPath, int size) {
+
+        if (size == GROUP_SMALL_PIC)
+            put("localImagePathSmall", groupPicPath);
+
+        if (size == GROUP_LARGE_PIC)
+            put("localImagePathLarge", groupPicPath);
+
+}
+
+
+    public String getGroupPicLocalPath(int size) {
+        if (size == GROUP_SMALL_PIC)
+            return getString("localImagePathSmall");
+
+        if (size == GROUP_LARGE_PIC)
+            return getString("localImagePathLarge");
+        return "";
     }
 
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(this.getObjectId());
-//        dest.writeString(this.getGroupName());
-//        dest.writeString(this.getAdmin());
-//    }
+
+    public  void setGroupLocation(ParseGeoPoint groupLocation){put("groupLocation",groupLocation);}
+    public ParseGeoPoint getGroupLocation(){return getParseGeoPoint("groupLocation");}
+
+    public void setLastMessage(Message message) {
+        put("lastMessage", message);
+    }
+
+    public HashMap<String, Object> getMapObject() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("groupName", getString("groupName"));
+        map.put("adminId", getString("adminId"));
+
+        return map;
+    }
 
     @Override
     public String toString() {
@@ -55,22 +86,6 @@ public class ChatGroups extends ParseObject/* implements Parcelable*/ {
               ", GroupName: " + getGroupName() +
               ", AdminId: " + getAdmin();
     }
-/*
-    private void readFromParcel(Parcel in) {
-       this.setObjectId(in.readString());
-      this.setGroupName(in.readString());
-      this.setAdmin(in.readString());
-    }
 
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public ChatGroups createFromParcel(Parcel in) {
-            return new ChatGroups(in);
-        }
-
-        public ChatGroups[] newArray(int size) {
-            return new ChatGroups[size];
-        }
-    };
-*/
 }

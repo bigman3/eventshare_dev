@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="52dp"
+    android:layout_gravity="center_horizontal"
+    android:weightSum="1"
+    android:background="#e4e4e4">
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:id="@+id/friend_pic"
+        />
+<!-- android:background="@color/material_blue_grey_800"-->
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textSize="10pt"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/friend_name"
+        android:layout_toEndOf="@id/friend_pic"
+        android:layout_marginLeft="10dp"
+        android:text="Tivan Magal"/>
+
+</RelativeLayout>

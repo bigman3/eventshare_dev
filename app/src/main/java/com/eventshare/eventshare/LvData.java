@@ -25,6 +25,7 @@ public class LvData<ObjectType, Adapter extends ArrayAdapter<ObjectType>> {
     public List<ObjectType> getList() {
         return objectList;
     }
+//    public ListView getListView() { return listView;}
 
     public void setAdapter(Adapter ad) {
         this.adapter = ad;
@@ -33,6 +34,10 @@ public class LvData<ObjectType, Adapter extends ArrayAdapter<ObjectType>> {
 
     public void add(ObjectType o) {
         objectList.add(o);
+    }
+
+    public void remove(ObjectType o) {
+        objectList.remove(o);
     }
 
     public void addFirst(ObjectType o) {
@@ -51,5 +56,9 @@ public class LvData<ObjectType, Adapter extends ArrayAdapter<ObjectType>> {
 
     public Object getItemAtPosition(int pos) {
         return listView.getItemAtPosition(pos);
+    }
+
+    public ListView getListView() {
+        return listView;
     }
 }

@@ -3,32 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/container"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@drawable/welcome_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="event share login screen"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.04" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:layout_gravity="top"
+        android:background="#ff062d50"
+        android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="add some graphics"
-        android:id="@+id/textView3"
-        android:layout_weight="0.04"
-        android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:layout_width="242dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageView"
+            android:background="@drawable/welcome_logo"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="and another button for facebook purposes (not the fb button, but a regular one)"
-        android:id="@+id/textView4"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.04" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="380dp"
+        android:layout_gravity="center_horizontal">
+
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/btnFBLogin"
+            android:adjustViewBounds="true"
+            android:background="@drawable/welcome_fb_connect" />
+    </RelativeLayout>
+
 </LinearLayout>

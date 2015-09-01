@@ -1,0 +1,95 @@
+<!--ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@mipmap/bg_light"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.eventshare.eventshare.Activities.SearchEventActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/search_results_results_dialog">
+
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+
+            android:id="@+id/search_result_ivLocation"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentEnd="true"
+            map:cameraBearing="112.5"
+            map:cameraTilt="30"
+            map:cameraZoom="13"
+            map:mapType="normal"
+            map:uiCompass="false"
+            map:uiRotateGestures="false"
+            map:uiScrollGestures="true"
+            map:uiTiltGestures="true"
+            map:uiZoomControls="false"
+            map:uiZoomGestures="true"
+            android:layout_alignParentStart="true" />
+
+        <ListView
+            android:id="@+id/search_result_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/search_result_ivLocation"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="invisible"
+        android:id="@+id/search_result_no_reults_dialog">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_result_search_again"
+            android:src="@drawable/ic_blue_ok"
+            android:layout_alignTop="@+id/search_result_cancel_search_again"
+            android:layout_alignEnd="@+id/tvNoResults"
+            android:layout_marginEnd="45dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_result_cancel_search_again"
+            android:src="@drawable/ic_blue_cancel"
+            android:layout_marginStart="49dp"
+            android:layout_below="@+id/tvNoResults"
+            android:layout_alignStart="@+id/tvNoResults"
+            android:layout_marginTop="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="   No events found :(\nTry different search ?"
+            android:id="@+id/tvNoResults"
+            android:layout_marginTop="101dp"
+            android:maxLines="2"
+            android:textStyle="bold"
+            android:textColor="#1b5ea2"
+            android:textSize="24sp"
+            android:background="#72ffffff"
+            android:layout_alignTop="@+id/search_result_lv"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</RelativeLayout>
+    <!--/ScrollView-->

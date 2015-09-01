@@ -2,10 +2,26 @@
     <string name="app_name">EventShare</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Eventshare</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="app_id">413116892224557</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_add_new_group">Add new event</string>
+    <string name="title_activity_context">ContextActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_event_info">Event info</string>
+    <string name="title_activity_map">Choose event location</string>
+    <string name="title_activity_add_new_group_friends_selector">
+        Add some friends
+    </string>
+
+
+    <string name="button_description">Emoticons Button</string>
+    <string name="chat_hint">Enter text here</string>
+    <string name="post">Post</string>
+    <string name="back">Back</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_search_event">Search for events</string>
+    <string name="title_activity_show_search_event_results">Event search results</string>
 </resources>
